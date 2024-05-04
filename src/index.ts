@@ -1,5 +1,5 @@
-import express, {Express} from "express";
-import  cors from "cors";
+import express,{Express} from "express";
+import cors from "cors";
 import authRoute from "./routes/auth-route";
 import messageRoute from "./routes/message-route";
 import userRoute from "./routes/user-route";

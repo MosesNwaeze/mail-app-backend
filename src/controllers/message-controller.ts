@@ -1,5 +1,6 @@
 import {Handler, Request, Response} from 'express';
 import Messages from "../models/Messages";
+import User from "../models/Users";
 import mongoose from "mongoose";
 
 export const create = async (req: Request, res: Response) => {
@@ -73,8 +74,9 @@ export const fetchUserMessages: Handler = async (req: Request, res: Response) =>
             .populate('user')
             .exec();
 
+        let user = await User.findById(userId)
+
         const data = [];
-        let user = {}
         for (let message of messages) {
             const userMessages = {
                 subject: message?.subject,
@@ -83,14 +85,13 @@ export const fetchUserMessages: Handler = async (req: Request, res: Response) =>
                 time_received: message?.time_received,
                 _id: message?._id
             };
-            user = message?.user;
             data.push(userMessages);
 
         }
 
         const response = {
             messages: [...data],
-            user: user
+            user
         }
 
         return res.status(200).json({
